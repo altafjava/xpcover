@@ -8,28 +8,28 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.gmc.main.dto.LoginDTO;
-import com.gmc.main.model.Customer;
+import com.gmc.main.jwt.JwtUtil;
+import com.gmc.main.model.User;
 import com.gmc.main.util.PasswordEncryptor;
 
 @Service
 public class LoginService {
 
 	@Autowired
-	private MongoTemplate mongoTemplate;
+	private JwtUtil jwtUtil;
 	@Autowired
-	private SignupService signupService;
+	private MongoTemplate mongoTemplate;
 
 	public ResponseEntity<String> login(LoginDTO loginDTO) {
 		String hashedPassword = PasswordEncryptor.encryptPassword(loginDTO.getPassword());
 		Query query = new Query();
-		query.addCriteria(new Criteria().andOperator(Criteria.where("password").is(hashedPassword),
-				new Criteria().orOperator(Criteria.where("mobile").is(loginDTO.getMobile()), Criteria.where("email").is(loginDTO.getEmail()))));
+		query.addCriteria(new Criteria().andOperator(Criteria.where("password").is(hashedPassword), Criteria.where("email").is(loginDTO.getEmail())));
 
-		Customer customer = mongoTemplate.findOne(query, Customer.class);
-		if (customer == null) {
+		User user = mongoTemplate.findOne(query, User.class);
+		if (user == null) {
 			return new ResponseEntity<>("Credential is not valid", HttpStatus.FORBIDDEN);
 		} else {
-			String token = signupService.createJwtUser(customer.getCustomerId());
+			String token = jwtUtil.createJwtUser(user.getId(), user.getRoles());
 			return new ResponseEntity<>(token, HttpStatus.OK);
 		}
 	}

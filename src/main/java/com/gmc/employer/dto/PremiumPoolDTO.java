@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UpdateEmployerDTO {
-	private String name;
-	private String address;
+public class PremiumPoolDTO {
+	private double totalPremiumPool;
 }

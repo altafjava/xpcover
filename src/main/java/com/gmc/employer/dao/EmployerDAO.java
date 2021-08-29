@@ -39,9 +39,10 @@ public class EmployerDAO {
 		return employer2;
 	}
 
-	public void updateEmployer(Employer employer) {
+	public Employer updateEmployer(Employer employer) {
 		Employer employer2 = employerRepository.save(employer);
 		log.info("employer \'{}\' updated successfully", employer2.getName());
+		return employer2;
 	}
 
 	public void deleteEmployer(String employerId) {

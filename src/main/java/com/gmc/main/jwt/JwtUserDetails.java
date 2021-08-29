@@ -1,64 +1,38 @@
 package com.gmc.main.jwt;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Setter
+@Getter
+@ToString
 public class JwtUserDetails implements UserDetails {
 
 	private static final long serialVersionUID = 2483170093697337488L;
-	private String customerId;
+	private String id;
 	private Date issuedAt;
 	private Date expiration;
 	private String token;
-	private String otp;
-	// private String role;
-	// private Collection<? extends GrantedAuthority> authorities;
+	private Set<String> roles;
+//	private Collection<? extends GrantedAuthority> authorities;
 
 	public JwtUserDetails() {
 		super();
 	}
 
-	public JwtUserDetails(String customerId, Date issuedAt, Date expiration, String token, String otp) {
+	public JwtUserDetails(String id, Date issuedAt, Date expiration, String token, Set<String> roles) {
 		super();
-		this.customerId = customerId;
+		this.id = id;
 		this.issuedAt = issuedAt;
 		this.expiration = expiration;
 		this.token = token;
-		this.otp = otp;
-	}
-
-	public Date getIssuedAt() {
-		return issuedAt;
-	}
-
-	public void setIssuedAt(Date issuedAt) {
-		this.issuedAt = issuedAt;
-	}
-
-	public Date getExpiration() {
-		return expiration;
-	}
-
-	public void setExpiration(Date expiration) {
-		this.expiration = expiration;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public String getOtp() {
-		return otp;
-	}
-
-	public void setOtp(String otp) {
-		this.otp = otp;
+		this.roles = roles;
 	}
 
 	@Override
@@ -94,11 +68,6 @@ public class JwtUserDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		return "JwtUserDetails [customerId=" + customerId + ", issuedAt=" + issuedAt + ", expiration=" + expiration + ", token=" + token + ", otp=" + otp + "]";
 	}
 
 }

@@ -16,12 +16,10 @@ public class JwtGenerator {
 	private int jwtExpirationInMs;
 
 	public String generate(JwtUser jwtUser) {
-		Claims claims = Jwts.claims().setSubject(jwtUser.getCustomerId() + "");
+		Claims claims = Jwts.claims().setSubject(jwtUser.getId());
 		claims.setIssuedAt(new Date());
 		claims.setExpiration(new Date(new Date().getTime() + jwtExpirationInMs));
-		claims.put("posId", jwtUser.getPosId());
-		claims.put("otp", jwtUser.getOtp());
-		claims.put("role", jwtUser.getRole());
+		claims.put("role", jwtUser.getRoles());
 		return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
 		// returning the JWT Token
 	}

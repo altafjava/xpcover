@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +33,10 @@ public class JwtValidator {
 			}
 			Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 			jwtUser = new JwtUser();
-			jwtUser.setCustomerId(claims.getSubject());
-			jwtUser.setPosId((Integer) claims.get("posId"));
+			jwtUser.setId(claims.getSubject());
 			jwtUser.setIssuedAt(claims.getIssuedAt());
 			jwtUser.setExpiration(claims.getExpiration());
-			jwtUser.setOtp((String) claims.get("otp"));
-			jwtUser.setRole((String) claims.get("role"));
+			jwtUser.setRoles((Set<String>) claims.get("roles"));
 
 		} catch (SignatureException ex) {
 			LOGGER.error("Invalid JWT signature = " + ex);

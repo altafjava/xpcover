@@ -2,6 +2,7 @@ package com.gmc.employer.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.gmc.employer.dto.CreateEmployerDTO;
@@ -21,12 +23,14 @@ import com.gmc.employer.service.EmployerService;
 @RequestMapping("/api/v1/employers")
 public class EmployerController {
 
+	@Value("${jwt.prefixLength}")
+	private int jwtPrefixLength;
 	@Autowired
 	private EmployerService employerService;
 
 	@GetMapping("/{employerId}")
-	public ResponseEntity<Object> getEmployer(@PathVariable String employerId) {
-		Employer employer = employerService.getEmployer(employerId);
+	public ResponseEntity<Object> getEmployer(@RequestHeader("Authorization") String token, @PathVariable String employerId) {
+		Employer employer = employerService.getEmployer(token.substring(jwtPrefixLength), employerId);
 		if (employer == null) {
 			return new ResponseEntity<>("No Employer Found with id: " + employerId, HttpStatus.OK);
 		} else {
@@ -36,8 +40,8 @@ public class EmployerController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Employer>> getEmployers() {
-		List<Employer> employers = employerService.getEmployers();
+	public ResponseEntity<List<Employer>> getEmployers(@RequestHeader("Authorization") String token) {
+		List<Employer> employers = employerService.getEmployers(token.substring(jwtPrefixLength));
 		return new ResponseEntity<>(employers, HttpStatus.OK);
 	}
 
@@ -52,14 +56,14 @@ public class EmployerController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Employer> updateEmployer(@RequestBody UpdateEmployerDTO updateEmployerDTO) {
-		Employer updatedEmployer = employerService.updateEmployer(updateEmployerDTO);
+	public ResponseEntity<Employer> updateEmployer(@RequestHeader("Authorization") String token, @RequestBody UpdateEmployerDTO updateEmployerDTO) {
+		Employer updatedEmployer = employerService.updateEmployer(token.substring(jwtPrefixLength), updateEmployerDTO);
 		return new ResponseEntity<>(updatedEmployer, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{employerId}")
-	public ResponseEntity<Void> removeEmployer(@PathVariable String employerId) {
-		employerService.removeEmployer(employerId);
+	public ResponseEntity<Void> removeEmployer(@RequestHeader("Authorization") String token, @PathVariable String employerId) {
+		employerService.removeEmployer(token.substring(jwtPrefixLength), employerId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

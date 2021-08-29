@@ -2,12 +2,11 @@ package com.gmc.main.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import com.gmc.main.model.Customer;
+import com.gmc.main.model.User;
 
 @Repository
-public interface CustomerRepository extends MongoRepository<Customer, String> {
+public interface CustomerRepository extends MongoRepository<User, String> {
 
-	Customer findByMobileOrEmail(String mobile, String email);
+	User findByEmail(String email);
 
-	Customer findByCustomerId(String customerId);
 }

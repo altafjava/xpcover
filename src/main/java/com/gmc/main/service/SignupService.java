@@ -1,6 +1,7 @@
 package com.gmc.main.service;
 
 import java.util.Date;
+import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -13,10 +14,9 @@ import com.gmc.main.dto.SignupDTO;
 import com.gmc.main.dto.SignupReturnDTO;
 import com.gmc.main.dto.VerifyOtpDTO;
 import com.gmc.main.enums.OtpTypeEnum;
-import com.gmc.main.jwt.JwtGenerator;
-import com.gmc.main.jwt.JwtUser;
-import com.gmc.main.model.Customer;
+import com.gmc.main.jwt.JwtUtil;
 import com.gmc.main.model.OTP;
+import com.gmc.main.model.User;
 import com.gmc.main.repository.CustomerRepository;
 import com.gmc.main.repository.OtpRepository;
 import com.gmc.main.util.OTPEncryptorDecryptor;
@@ -30,21 +30,19 @@ public class SignupService {
 
 	@Value("${signupSMS}")
 	private String signupSMS;
-	@Value("${jwt.expirationInMS}")
-	private int jwtExpirationInMs;
-	@Autowired
-	private JwtGenerator jwtGenerator;
 	@Autowired
 	private CustomerRepository customerRepository;
 	@Autowired
 	private OtpRepository otpRepository;
+	@Autowired
+	private JwtUtil jwtUtil;
 
 	public ResponseEntity<?> signup(SignupDTO signupDTO) {
 
 		String mobile = signupDTO.getMobile();
 		String email = signupDTO.getEmail();
-		Customer customer = customerRepository.findByMobileOrEmail(mobile, email);
-		if (customer == null) {
+		User user = customerRepository.findByEmail(email);
+		if (user == null) {
 //			generate otp
 			String generatedOtp = Integer.toString(OTPGenerator.generateOTP());
 			// save signup details into mongodb
@@ -60,7 +58,7 @@ public class SignupService {
 			signupReturnDTO.setCustomerId(customerId);
 			return new ResponseEntity<>(signupReturnDTO, HttpStatus.OK);
 		} else {
-			String token = createJwtUser(customer.getCustomerId());
+			String token = jwtUtil.createJwtUser(user.getId(), user.getRoles());
 			return new ResponseEntity<>(token, HttpStatus.OK);
 		}
 	}
@@ -70,12 +68,13 @@ public class SignupService {
 		String encryptedOTP = OTPEncryptorDecryptor.encrypt(userOtp);
 		OTP otp = otpRepository.findByIdAndOtpTypeAndIsExpiredFalse(verifyOtpDTO.getOtpId(), otpType);
 		if (otp != null && otp.getEncryptedOTP().equals(encryptedOTP) && verifyOtpDTO.getMobile().equals(otp.getMobile()) && verifyOtpDTO.getEmail().equals(otp.getEmail())) {
-			String customerId = verifyOtpDTO.getCustomerId();
-			Customer customer = customerRepository.findByCustomerId(customerId);
-			if (customer == null) {
+			String id = verifyOtpDTO.getCustomerId();
+			Optional<User> userOptional = customerRepository.findById(id);
+			if (userOptional.isEmpty()) {
 				return new ResponseEntity<>("Wrong customerId", HttpStatus.FORBIDDEN);
 			} else {
-				String token = createJwtUser(customerId);
+				User user = userOptional.get();
+				String token = jwtUtil.createJwtUser(id, user.getRoles());
 				return new ResponseEntity<>(token, HttpStatus.OK);
 			}
 		} else {
@@ -83,21 +82,13 @@ public class SignupService {
 		}
 	}
 
-	public String createJwtUser(String customerId) {
-		JwtUser jwtUser = new JwtUser();
-		jwtUser.setCustomerId(customerId);
-		jwtUser.setIssuedAt(new Date());
-		jwtUser.setExpiration(new Date(new Date().getTime() + jwtExpirationInMs));
-		return jwtGenerator.generate(jwtUser);
-	}
-
 	private String saveSignupDetails(SignupDTO signupDTO, String generatedOtp) {
-		Customer signup = new Customer();
+		User signup = new User();
 		BeanUtils.copyProperties(signupDTO, signup);
 		String encryptedPassword = PasswordEncryptor.encryptPassword(signupDTO.getPassword());
 		signup.setPassword(encryptedPassword);
 		signup = customerRepository.save(signup);
-		return signup.getCustomerId();
+		return signup.getId();
 	}
 
 	public String saveOTP(String generatedOTP, String mobile, String email, String otpType) {
