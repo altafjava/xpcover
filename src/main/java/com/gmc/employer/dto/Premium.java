@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class PremiumPoolDTO {
+public class Premium {
 	private double totalPremiumPool;
 }

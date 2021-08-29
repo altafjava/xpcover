@@ -5,8 +5,6 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CreateEmployerDTO {
+public class PolicyDto {
 	private String name;
-	private String email;
-	private String address;
 }

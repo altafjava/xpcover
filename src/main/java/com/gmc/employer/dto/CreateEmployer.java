@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UpdateEmployerDTO {
+public class CreateEmployer {
 	private String name;
+	private String email;
 	private String address;
 }

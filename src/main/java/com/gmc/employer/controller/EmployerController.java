@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.gmc.employer.dto.CreateEmployerDTO;
-import com.gmc.employer.dto.UpdateEmployerDTO;
+import com.gmc.employer.dto.CreateEmployer;
+import com.gmc.employer.dto.UpdateEmployer;
 import com.gmc.employer.model.Employer;
 import com.gmc.employer.service.EmployerService;
 
@@ -46,7 +46,7 @@ public class EmployerController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Employer> createEmployer(@RequestBody CreateEmployerDTO createEmployerDTO) {
+	public ResponseEntity<Employer> createEmployer(@RequestBody CreateEmployer createEmployerDTO) {
 		Employer createdEmployer = employerService.createEmployer(createEmployerDTO);
 		if (createdEmployer == null) {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -56,7 +56,7 @@ public class EmployerController {
 	}
 
 	@PutMapping
-	public ResponseEntity<Employer> updateEmployer(@RequestHeader("Authorization") String token, @RequestBody UpdateEmployerDTO updateEmployerDTO) {
+	public ResponseEntity<Employer> updateEmployer(@RequestHeader("Authorization") String token, @RequestBody UpdateEmployer updateEmployerDTO) {
 		Employer updatedEmployer = employerService.updateEmployer(token.substring(jwtPrefixLength), updateEmployerDTO);
 		return new ResponseEntity<>(updatedEmployer, HttpStatus.OK);
 	}

@@ -7,14 +7,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class Employer {
-	private String id;
+public class Policy {
 	private String name;
-	private String address;
-	private double totalPremiumPool;
-	private Policy policy;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "IST")
-	private Date createdDate;
+	private Date startDate;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "IST")
-	private Date updatedDate;
+	private Date endDate;
 }

@@ -8,8 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.gmc.employer.dao.EmployerDAO;
-import com.gmc.employer.dto.CreateEmployerDTO;
-import com.gmc.employer.dto.UpdateEmployerDTO;
+import com.gmc.employer.dto.CreateEmployer;
+import com.gmc.employer.dto.UpdateEmployer;
 import com.gmc.employer.model.Employer;
 import com.gmc.main.enums.Role;
 import com.gmc.main.enums.UserType;
@@ -47,7 +47,7 @@ public class EmployerService {
 		return null;
 	}
 
-	public Employer createEmployer(CreateEmployerDTO createEmployerDTO) {
+	public Employer createEmployer(CreateEmployer createEmployerDTO) {
 		log.info("started to create employer: {}", createEmployerDTO.getName());
 		Employer employer = new Employer();
 		BeanUtils.copyProperties(createEmployerDTO, employer);
@@ -71,7 +71,7 @@ public class EmployerService {
 		return savedEmployer;
 	}
 
-	public Employer updateEmployer(String token, UpdateEmployerDTO updateEmployerDTO) {
+	public Employer updateEmployer(String token, UpdateEmployer updateEmployerDTO) {
 		log.info("started to update employer: {}", updateEmployerDTO.getName());
 		JwtUser jwtUser = jwtValidator.validate(token);
 		String id = jwtUser.getId();
