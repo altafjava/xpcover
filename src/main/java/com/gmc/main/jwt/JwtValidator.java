@@ -25,6 +25,7 @@ public class JwtValidator {
 	private TokenBlackListCache tokenBlackListCache;
 
 	public JwtUser validate(String token) {
+		LOGGER.info("Started validating token");
 		JwtUser jwtUser = null;
 		try {
 			if (tokenBlackListCache.isTokenBlackListed(token)) {

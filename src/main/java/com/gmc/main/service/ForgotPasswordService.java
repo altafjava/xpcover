@@ -14,7 +14,7 @@ import com.gmc.main.jwt.JwtUtil;
 import com.gmc.main.jwt.JwtValidator;
 import com.gmc.main.model.OTP;
 import com.gmc.main.model.User;
-import com.gmc.main.repository.CustomerRepository;
+import com.gmc.main.repository.UserRepository;
 import com.gmc.main.repository.OtpRepository;
 import com.gmc.main.util.OTPEncryptorDecryptor;
 import com.gmc.main.util.OTPGenerator;
@@ -32,7 +32,7 @@ public class ForgotPasswordService {
 	@Autowired
 	private SignupService signupService;
 	@Autowired
-	private CustomerRepository customerRepository;
+	private UserRepository customerRepository;
 	@Autowired
 	private OtpRepository otpRepository;
 	@Autowired

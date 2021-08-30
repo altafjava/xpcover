@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.gmc.employer.dao.EmployerDAO;
+import com.gmc.employer.dao.UserDAO;
 import com.gmc.employer.dto.CreateEmployer;
 import com.gmc.employer.dto.UpdateEmployer;
 import com.gmc.employer.model.Employer;
@@ -16,7 +17,8 @@ import com.gmc.main.enums.UserType;
 import com.gmc.main.jwt.JwtUser;
 import com.gmc.main.jwt.JwtValidator;
 import com.gmc.main.model.User;
-import com.gmc.main.repository.CustomerRepository;
+import com.gmc.main.repository.UserRepository;
+import com.gmc.main.util.BeanUtil;
 import com.gmc.main.util.PasswordEncryptor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,11 +27,13 @@ import lombok.extern.slf4j.Slf4j;
 public class EmployerService {
 
 	@Autowired
+	private UserDAO userDAO;
+	@Autowired
 	private EmployerDAO employerDAO;
 	@Autowired
 	private JwtValidator jwtValidator;
 	@Autowired
-	private CustomerRepository customerRepository;
+	private UserRepository customerRepository;
 
 	public Employer getEmployer(String token, String employerId) {
 		JwtUser jwtUser = jwtValidator.validate(token);
@@ -77,12 +81,7 @@ public class EmployerService {
 		String id = jwtUser.getId();
 		Employer employer = employerDAO.findEmployer(id);
 		employer.setUpdatedDate(new Date());
-		if (updateEmployerDTO.getName() != null) {
-			employer.setName(updateEmployerDTO.getName());
-		}
-		if (updateEmployerDTO.getAddress() != null) {
-			employer.setAddress(updateEmployerDTO.getAddress());
-		}
+		BeanUtils.copyProperties(updateEmployerDTO, employer, BeanUtil.getNullPropertyNames(updateEmployerDTO));
 		return employerDAO.saveEmployer(employer);
 	}
 
@@ -90,6 +89,7 @@ public class EmployerService {
 		JwtUser jwtUser = jwtValidator.validate(token);
 		if (jwtUser != null) {
 			employerDAO.deleteEmployer(employerId);
+			userDAO.deleteUser(employerId);
 		}
 	}
 }

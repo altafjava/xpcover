@@ -32,7 +32,7 @@ public class EmployerController {
 	public ResponseEntity<Object> getEmployer(@RequestHeader("Authorization") String token, @PathVariable String employerId) {
 		Employer employer = employerService.getEmployer(token.substring(jwtPrefixLength), employerId);
 		if (employer == null) {
-			return new ResponseEntity<>("No Employer Found with id: " + employerId, HttpStatus.OK);
+			return new ResponseEntity<>("No Employer Found with id: " + employerId, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(employer, HttpStatus.OK);
 		}
