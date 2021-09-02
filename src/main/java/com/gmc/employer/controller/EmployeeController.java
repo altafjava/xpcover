@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,23 +28,25 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
 
+	@PreAuthorize("hasAuthority('EMPLOYER')")
 	@GetMapping("/{employeeId}")
 	public ResponseEntity<Object> getEmployer(@RequestHeader("Authorization") String token, @PathVariable String employeeId) {
-		Employee employee = employeeService.getEmployee(token.substring(jwtPrefixLength), employeeId);
+		Employee employee = employeeService.getEmployee(employeeId);
 		if (employee == null) {
 			return new ResponseEntity<>("No Employee Found with id: " + employeeId, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(employee, HttpStatus.OK);
 		}
-
 	}
 
+	@PreAuthorize("hasAuthority('EMPLOYER')")
 	@GetMapping
 	public ResponseEntity<List<Employee>> getEmployees(@RequestHeader("Authorization") String token) {
 		List<Employee> employees = employeeService.getEmployees(token.substring(jwtPrefixLength));
 		return new ResponseEntity<>(employees, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAuthority('EMPLOYER')")
 	@PostMapping
 	public ResponseEntity<Employee> addEmployee(@RequestHeader("Authorization") String token, @RequestBody EmployeeDto employeeDto) {
 		Employee employee = employeeService.addEmployee(token.substring(jwtPrefixLength), employeeDto);
@@ -54,12 +57,14 @@ public class EmployeeController {
 		}
 	}
 
+	@PreAuthorize("hasAuthority('EMPLOYER')")
 	@PutMapping("/{employeeId}")
 	public ResponseEntity<Employee> updateEmployee(@RequestHeader("Authorization") String token, @RequestBody EmployeeDto employeeDto, @PathVariable String employeeId) {
 		Employee updatedEmployee = employeeService.updateEmployee(token.substring(jwtPrefixLength), employeeDto, employeeId);
 		return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasAuthority('EMPLOYER')")
 	@DeleteMapping("/{employeeId}")
 	public ResponseEntity<Void> removeEmployer(@RequestHeader("Authorization") String token, @PathVariable String employeeId) {
 		employeeService.removeEmployee(token.substring(jwtPrefixLength), employeeId);

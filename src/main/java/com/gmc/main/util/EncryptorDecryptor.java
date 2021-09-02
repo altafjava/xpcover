@@ -7,12 +7,10 @@ import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
-public class OTPEncryptorDecryptor {
-
-	private static final Logger LOGGER = LogManager.getLogger(OTPEncryptorDecryptor.class);
+@Slf4j
+public class EncryptorDecryptor {
 
 	private static SecretKeySpec secretKey;
 	private static byte[] keyArray;
@@ -26,29 +24,29 @@ public class OTPEncryptorDecryptor {
 			keyArray = Arrays.copyOf(keyArray, 16);
 			secretKey = new SecretKeySpec(keyArray, "AES");
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			LOGGER.error(e);
+			log.error("Error while creating MessageDigest: {}", e);
 		}
 
 	}
 
-	public static String encrypt(String otp) {
+	public static String encrypt(String rawValue) {
 		try {
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-			return Base64.getEncoder().encodeToString(cipher.doFinal(otp.getBytes("UTF-8")));
+			return Base64.getEncoder().encodeToString(cipher.doFinal(rawValue.getBytes("UTF-8")));
 		} catch (Exception e) {
-			LOGGER.error("Error while decrypting: " + e);
+			log.error("Error while encrypting: {}", e);
 		}
 		return null;
 	}
 
-	public static String decrypt(String encryptedOTP) {
+	public static String decrypt(String encryptedValue) {
 		try {
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
-			return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedOTP)));
+			return new String(cipher.doFinal(Base64.getDecoder().decode(encryptedValue)));
 		} catch (Exception e) {
-			LOGGER.error("Error while decrypting: " + e);
+			log.error("Error while decrypting: {}" + e);
 		}
 		return null;
 	}

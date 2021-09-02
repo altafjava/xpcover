@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 public class JwtUser {
 	private String id;
+	private String email;
 	private Date issuedAt;
 	private Date expiration;
 	private Set<String> roles;

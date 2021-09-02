@@ -17,6 +17,6 @@ public class EmployeeDto {
 	private String designation;
 	private Date joiningDate;
 	private String coverageType;
-	private String coverageAmount;
+	private double coverageAmount;
 	private List<Member> members;
 }

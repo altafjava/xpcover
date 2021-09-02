@@ -1,5 +1,5 @@
 
-# Requirements to execute the project
+## Requirements to execute the project
 
 1. Clone project from [Github Link](https://github.com/altafjava/signup-login-forgot.git).
 2. Import as Existing Maven Projects if it is Eclipse.
@@ -7,36 +7,32 @@
 4. Run SignupLoginForgotApplication as Spring Boot App.
 
 
-# How to test the Program
+## How to test the Program
+
 1. Install Postman.
-2. Execute the Project. (Run com.truck.TruckApplication as Spring Boot App/Java Application).
+2. Execute the Project. (Run com.gmc.Application as Spring Boot App or Java Application).
 3. Go to [API Documentation](http://localhost:9999/swagger-ui.html) to know the API details.
 
 
-# Example
+## Example
 
-**URL :** localhost:9999/test
+**URL :** localhost:9999/api/v1/test
 
-**URL :** localhost:9999/signup
+**Output :** This is for testing. Project working fine
 
-**Input :**
-
-**Body :** application/json
+## Secure Test Curl Example
 
 ```
-{
-    "firstName": "Sam",
-    "lastName": "Altaf",
-    "mobile": "7995504416",
-    "email": "altaf@gmail.com",
-    "password": "altaf",
-    "role": "USER"
-}
+curl --location --request GET 'localhost:9999/api/v1/test-secure' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA1Nzg5NDYsImV4cCI6MTYzMDYyMjE0NiwiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.Za1DBCca5dyCU9zm1znclHG3mkChJey-VQ6d9GIwArhU-P3VldbElZVn_bVNzQJTEZrSjzjsEBHaV1gFlvZVGA'
 ```
+## Users
 
-**Output :**
+**Default User : OWNER**
 
-```
-eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1ZDM0NzcxMzc2YmYxNzNmMzBlMmU3M2IiLCJpYXQiOjE1NjM3MjAwODksImV4cCI6MTU2Mzc2MzI4OX0.02LH6OJCiT95pnFCMTwZV-rDUkPrAn5B4UuwWCz0vjKXnb15VZ9sdmdbKAXz9ZCkULSg0IAfYycHbZScMAGGoQ
+**Default Password : default** 
 
-```
+
+## Postman Collection
+
+Added in the project main directory with name **xpcover.postman_collection.json**

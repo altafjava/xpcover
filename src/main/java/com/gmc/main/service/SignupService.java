@@ -14,12 +14,12 @@ import com.gmc.main.dto.SignupDTO;
 import com.gmc.main.dto.SignupReturnDTO;
 import com.gmc.main.dto.VerifyOtpDTO;
 import com.gmc.main.enums.OtpTypeEnum;
-import com.gmc.main.jwt.JwtUtil;
+import com.gmc.main.jwt.JwtService;
 import com.gmc.main.model.OTP;
 import com.gmc.main.model.User;
-import com.gmc.main.repository.UserRepository;
 import com.gmc.main.repository.OtpRepository;
-import com.gmc.main.util.OTPEncryptorDecryptor;
+import com.gmc.main.repository.UserRepository;
+import com.gmc.main.util.EncryptorDecryptor;
 import com.gmc.main.util.OTPGenerator;
 import com.gmc.main.util.PasswordEncryptor;
 
@@ -35,14 +35,14 @@ public class SignupService {
 	@Autowired
 	private OtpRepository otpRepository;
 	@Autowired
-	private JwtUtil jwtUtil;
+	private JwtService jwtUtil;
 
 	public ResponseEntity<?> signup(SignupDTO signupDTO) {
 
 		String mobile = signupDTO.getMobile();
 		String email = signupDTO.getEmail();
-		User user = customerRepository.findByEmail(email);
-		if (user == null) {
+		Optional<User> userOptional = customerRepository.findByEmail(email);
+		if (userOptional.isEmpty()) {
 //			generate otp
 			String generatedOtp = Integer.toString(OTPGenerator.generateOTP());
 			// save signup details into mongodb
@@ -58,14 +58,15 @@ public class SignupService {
 			signupReturnDTO.setCustomerId(customerId);
 			return new ResponseEntity<>(signupReturnDTO, HttpStatus.OK);
 		} else {
-			String token = jwtUtil.createJwtUser(user.getId(), user.getRoles());
+			User user = userOptional.get();
+			String token = jwtUtil.createJwtUser(user.getId(), user.getEmail(), user.getRoles());
 			return new ResponseEntity<>(token, HttpStatus.OK);
 		}
 	}
 
 	public ResponseEntity<String> verifyOTP(VerifyOtpDTO verifyOtpDTO, String otpType) {
 		String userOtp = verifyOtpDTO.getOtp();
-		String encryptedOTP = OTPEncryptorDecryptor.encrypt(userOtp);
+		String encryptedOTP = EncryptorDecryptor.encrypt(userOtp);
 		OTP otp = otpRepository.findByIdAndOtpTypeAndIsExpiredFalse(verifyOtpDTO.getOtpId(), otpType);
 		if (otp != null && otp.getEncryptedOTP().equals(encryptedOTP) && verifyOtpDTO.getMobile().equals(otp.getMobile()) && verifyOtpDTO.getEmail().equals(otp.getEmail())) {
 			String id = verifyOtpDTO.getCustomerId();
@@ -74,7 +75,7 @@ public class SignupService {
 				return new ResponseEntity<>("Wrong customerId", HttpStatus.FORBIDDEN);
 			} else {
 				User user = userOptional.get();
-				String token = jwtUtil.createJwtUser(id, user.getRoles());
+				String token = jwtUtil.createJwtUser(id, user.getEmail(), user.getRoles());
 				return new ResponseEntity<>(token, HttpStatus.OK);
 			}
 		} else {
@@ -92,7 +93,7 @@ public class SignupService {
 	}
 
 	public String saveOTP(String generatedOTP, String mobile, String email, String otpType) {
-		String encryptedOTP = OTPEncryptorDecryptor.encrypt(generatedOTP);
+		String encryptedOTP = EncryptorDecryptor.encrypt(generatedOTP);
 		OTP otpDocument = new OTP();
 		otpDocument.setCreatedTime(new Date());
 		otpDocument.setUpdatedTime(new Date());

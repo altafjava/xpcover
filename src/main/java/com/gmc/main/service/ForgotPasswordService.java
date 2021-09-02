@@ -10,13 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.gmc.main.jwt.JwtUser;
-import com.gmc.main.jwt.JwtUtil;
-import com.gmc.main.jwt.JwtValidator;
+import com.gmc.main.jwt.JwtService;
 import com.gmc.main.model.OTP;
 import com.gmc.main.model.User;
-import com.gmc.main.repository.UserRepository;
 import com.gmc.main.repository.OtpRepository;
-import com.gmc.main.util.OTPEncryptorDecryptor;
+import com.gmc.main.repository.UserRepository;
+import com.gmc.main.util.EncryptorDecryptor;
 import com.gmc.main.util.OTPGenerator;
 import com.gmc.main.util.PasswordEncryptor;
 
@@ -28,18 +27,16 @@ public class ForgotPasswordService {
 	@Value("${forgotPasswordSMS}")
 	private String forgotPasswordMessage;
 	@Autowired
-	private JwtUtil jwtUtil;
+	private JwtService jwtService;
 	@Autowired
 	private SignupService signupService;
 	@Autowired
 	private UserRepository customerRepository;
 	@Autowired
 	private OtpRepository otpRepository;
-	@Autowired
-	private JwtValidator jwtValidator;
 
 	public ResponseEntity<String> forgotPassword(String mobile, String email, String otpType) {
-		if (isMobileEmailExist(mobile, email)) {
+		if (isEmailExist(mobile, email)) {
 			String generatedOtp = Integer.toString(OTPGenerator.generateOTP());
 //			User user = customerRepository.findByEmail(email);
 			signupService.saveOTP(generatedOtp, mobile, email, otpType);
@@ -68,22 +65,23 @@ public class ForgotPasswordService {
 
 	public ResponseEntity<String> verifyOTP(String mobile, String email, String otp, String otpType) {
 		String originalOTP = null;
-		User customer = customerRepository.findByEmail(email);
-		if (customer != null) {
-			String customerId = customer.getId();
+		Optional<User> userOptional = customerRepository.findByEmail(email);
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			String userId = user.getId();
 			List<OTP> otpList = otpRepository.findByOtpTypeAndIsExpiredFalseOrderByUpdatedTimeDesc(otpType);
 			if (!otpList.isEmpty()) {
 				String encryptedOTP = otpList.get(0).getEncryptedOTP();
-				if (encryptedOTP != null)
-					originalOTP = OTPEncryptorDecryptor.decrypt(encryptedOTP);
-				else
+				if (encryptedOTP != null) {
+					originalOTP = EncryptorDecryptor.decrypt(encryptedOTP);
+				} else {
 					return new ResponseEntity<>("Mobile OR Email is not valid", HttpStatus.FORBIDDEN);
-
+				}
 				if (!otp.equals(originalOTP)) {
 					LOGGER.warn("OTP is not valid mobile:" + mobile + "   email:" + email + "  otp:" + otp);
 					return new ResponseEntity<>("OTP is not valid", HttpStatus.FORBIDDEN);
 				}
-				String token = jwtUtil.createJwtUser(customerId, customer.getRoles());
+				String token = jwtService.createJwtUser(userId, user.getEmail(), user.getRoles());
 				LOGGER.info("USER logged in : " + mobile);
 				return new ResponseEntity<>(token, HttpStatus.OK);
 			}
@@ -92,7 +90,7 @@ public class ForgotPasswordService {
 	}
 
 	public ResponseEntity<String> resetPassword(String token, String newPassword) {
-		JwtUser jwtUser = jwtValidator.validate(token);
+		JwtUser jwtUser = jwtService.validateJwtToken(token);
 		String customerId = jwtUser.getId();
 		Optional<User> userOptional = customerRepository.findById(customerId);
 		if (userOptional.isPresent()) {
@@ -107,8 +105,8 @@ public class ForgotPasswordService {
 		return new ResponseEntity<>("Password updation failed", HttpStatus.FORBIDDEN);
 	}
 
-	private boolean isMobileEmailExist(String mobile, String email) {
-		User customer = customerRepository.findByEmail(email);
-		return customer == null ? false : true;
+	private boolean isEmailExist(String mobile, String email) {
+		Optional<User> userOptional = customerRepository.findByEmail(email);
+		return userOptional.isEmpty() ? false : true;
 	}
 }
