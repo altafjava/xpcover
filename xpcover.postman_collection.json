@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "7be8f0a3-f144-4b25-a4fa-502666f82eb9",
+		"name": "xpcover",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employer",
+			"item": [
+				{
+					"name": "Create Employer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA0MDgxOTAsImV4cCI6MTYzMDQ1MTM5MSwiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.JUNR-hkVdx0ltZAAXRykvZUcKqMkjm0bc3SlXWSXvpOi5ApNvlNbN0NSmWgeznFoYYfX7vVr2HsINCXETrKVEA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"CTS\",\r\n    \"email\":\"admin@cts.com\",\r\n    \"address\": \"Banglore\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/employers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employer",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA0MDgxOTAsImV4cCI6MTYzMDQ1MTM5MSwiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.JUNR-hkVdx0ltZAAXRykvZUcKqMkjm0bc3SlXWSXvpOi5ApNvlNbN0NSmWgeznFoYYfX7vVr2HsINCXETrKVEA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cognizant\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/employers/612e21b1c4265167aa790c18",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employers",
+								"612e21b1c4265167aa790c18"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA1NzgwNDcsImV4cCI6MTYzMDYyMTI0NywiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.red3vsg0Yk-NJMPj7XJ9_LZ6Bqr11JwXl04yI4PIFtRUrIBn-0m9lkIgxVIQNRitny4YAYXShv-xGCcx1fF_mg",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/employers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA0MDgxOTAsImV4cCI6MTYzMDQ1MTM5MSwiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.JUNR-hkVdx0ltZAAXRykvZUcKqMkjm0bc3SlXWSXvpOi5ApNvlNbN0NSmWgeznFoYYfX7vVr2HsINCXETrKVEA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/employers/612e006635010f70f189a250",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employers",
+								"612e006635010f70f189a250"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employer",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA0MDgxOTAsImV4cCI6MTYzMDQ1MTM5MSwiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.JUNR-hkVdx0ltZAAXRykvZUcKqMkjm0bc3SlXWSXvpOi5ApNvlNbN0NSmWgeznFoYYfX7vVr2HsINCXETrKVEA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/employers/612e21b1c4265167aa790c18",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employers",
+								"612e21b1c4265167aa790c18"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Add Total Premium Pool",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzgwNzEsImV4cCI6MTYzMDYyMTI3MSwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ.j5t3ihp2G4czNEAA8v0sqqm3YN7ctcPd4HFIQzl4sePhtdmWAIAPwfRtcneHv2VgORTc1jdk_NoNBAmaKpnf-g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalPremiumPool\": 20000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admin/total-premium-pool",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"total-premium-pool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Allowed Relationships",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzgwNzEsImV4cCI6MTYzMDYyMTI3MSwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ.j5t3ihp2G4czNEAA8v0sqqm3YN7ctcPd4HFIQzl4sePhtdmWAIAPwfRtcneHv2VgORTc1jdk_NoNBAmaKpnf-g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/admin/allowed-relationships",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"allowed-relationships"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Relationship Options",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzgwNzEsImV4cCI6MTYzMDYyMTI3MSwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ.j5t3ihp2G4czNEAA8v0sqqm3YN7ctcPd4HFIQzl4sePhtdmWAIAPwfRtcneHv2VgORTc1jdk_NoNBAmaKpnf-g",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/admin/relationship-options",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"relationship-options"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Policy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzgwNzEsImV4cCI6MTYzMDYyMTI3MSwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ.j5t3ihp2G4czNEAA8v0sqqm3YN7ctcPd4HFIQzl4sePhtdmWAIAPwfRtcneHv2VgORTc1jdk_NoNBAmaKpnf-g",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bajaj Health Care\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/admin/add-policy",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"add-policy"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Add Employee",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzYxNzYsImV4cCI6MTYzMDYxOTM3NiwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ._ZOh6wGDq6xPhxZYWJrny5q2w8Qzs8YSPHRBE_8SB4KaMxT-B5iR4b3ntwu5NzE9F3eAU3wMQ2oOnacs-fJd8Q",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"Mumbai\",\r\n    \"coverageAmount\": 400000,\r\n    \"coverageType\": \"Health\",\r\n    \"dateOfBirth\": \"1992-08-20\",\r\n    \"designation\": \"Java Developer\",\r\n    \"email\": \"sam@gmail.com\",\r\n    \"gender\": \"M\",\r\n    \"joiningDate\": \"2021-08-30\",\r\n    \"members\": [\r\n        {\r\n            \"age\": 25,\r\n            \"code\": \"SPOUSE\",\r\n            \"gender\": \"F\",\r\n            \"name\": \"Jolly\",\r\n            \"relationship\": \"Spouse\"\r\n        }\r\n    ],\r\n    \"name\": \"Sam Altaf\",\r\n    \"phone\": \"9898989898\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/employees",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzYxNzYsImV4cCI6MTYzMDYxOTM3NiwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ._ZOh6wGDq6xPhxZYWJrny5q2w8Qzs8YSPHRBE_8SB4KaMxT-B5iR4b3ntwu5NzE9F3eAU3wMQ2oOnacs-fJd8Q"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"Hyderabad\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/employees/6130a0460c13b8144f25dc51",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"6130a0460c13b8144f25dc51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzYxNzYsImV4cCI6MTYzMDYxOTM3NiwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ._ZOh6wGDq6xPhxZYWJrny5q2w8Qzs8YSPHRBE_8SB4KaMxT-B5iR4b3ntwu5NzE9F3eAU3wMQ2oOnacs-fJd8Q",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/employees/6130a4130c13b8144f25dc53",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"6130a4130c13b8144f25dc53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employees",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzYxNzYsImV4cCI6MTYzMDYxOTM3NiwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ._ZOh6wGDq6xPhxZYWJrny5q2w8Qzs8YSPHRBE_8SB4KaMxT-B5iR4b3ntwu5NzE9F3eAU3wMQ2oOnacs-fJd8Q",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/employees",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVlMTM1MDEwZjcwZjE4OWEyNDkiLCJpYXQiOjE2MzA1NzYxNzYsImV4cCI6MTYzMDYxOTM3NiwiZW1haWwiOiIwU01KOVFZTDRneS95RWdnS0ZuR1R3PT0iLCJyb2xlcyI6WyJFTVBMT1lFUiJdfQ._ZOh6wGDq6xPhxZYWJrny5q2w8Qzs8YSPHRBE_8SB4KaMxT-B5iR4b3ntwu5NzE9F3eAU3wMQ2oOnacs-fJd8Q"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/employees/6130a0460c13b8144f25dc51",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"employees",
+								"6130a0460c13b8144f25dc51"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"owner@gmail.com\",\r\n    \"password\": \"default\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/v1/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test",
+			"item": [
+				{
+					"name": "test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/v1/test",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"test"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test-secure",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI2MTJkZmVhMjM1MDEwZjcwZjE4OWEyNDgiLCJpYXQiOjE2MzA1Nzg5NDYsImV4cCI6MTYzMDYyMjE0NiwiZW1haWwiOiJZN3lDZDVkVUlwR3hYenFwM1ZPaFl3PT0iLCJyb2xlcyI6WyJPV05FUiJdfQ.Za1DBCca5dyCU9zm1znclHG3mkChJey-VQ6d9GIwArhU-P3VldbElZVn_bVNzQJTEZrSjzjsEBHaV1gFlvZVGA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{host}}/api/v1/test-secure",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"test-secure"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
